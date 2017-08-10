@@ -1,4 +1,12 @@
-# Copperfield - MySQL/MariaDB data scrambler
+# Copperfield v.0.1 - MySQL/MariaDB data scrambler                      (c)2017 Claudio Nanni
+
+
+# It scrambles data in a mysqldump output so that data is not recognizable, useful to protect sensitive data when it must be shared for testing/debugging purposes
+
+# Scrambling data has limitations when bugs are related to a specific string or character, we try to keep a minimal of alphabetic ordering, numbers are not touched
+
+# Also identificators(object names) are scrambled
+
 
 import fileinput
 import re
@@ -7,7 +15,7 @@ import random
 
 for line in fileinput.input():
     # Replace Names, I keep the first two characters of the identificators for easier reference to original ones
-    line = re.sub(r'`(.((?!`).)*)`', lambda x: ''.join([' `',x.group(1)[0:2],hashlib.md5(x.group(1).encode('utf8')).hexdigest()[0:20],'` ']),line.rstrip())
+    line = re.sub(r'`(.((?!`).)*)`', lambda x: ''.join(['`',x.group(1)[0:2],hashlib.md5(x.group(1).encode('utf8')).hexdigest()[0:20],'`']),line.rstrip())
    
     # VARCHAR fields that are too short contain md5 hashes that can collide and this is a problem especially if the field is a key or part of, we replace this with VARCHAR(10), increase if duplicate keys occurr
     line2 = re.sub(r'VARCHAR\((\d)\)',r'VARCHAR(10)' ,line.rstrip(),flags=re.IGNORECASE)
