@@ -15,5 +15,5 @@ for line in fileinput.input():
     #line3 = re.sub(r'\'\),',r'\'\),  ', line2.rstrip())
 
     # Replace Data
-    line4 = re.sub(r',\'.((?!,\').)*\'', lambda x: ''.join([",'",hashlib.md5(x.group().encode('utf8')).hexdigest()[0:40],"'"]),line2.rstrip())
+    line4 = re.sub(r',\'.((?!((,\')|(\),\())).)*\'', lambda x: ''.join([",'",hashlib.md5(x.group().encode('utf8')).hexdigest()[0:40],"'"]),line2.rstrip())
     print(line4)
