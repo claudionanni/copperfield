@@ -1,12 +1,8 @@
 # Copperfield v.0.1 - MySQL/MariaDB data scrambler                      (c)2017 Claudio Nanni
 
-
 # It scrambles data in a mysqldump output so that data is not recognizable, useful to protect sensitive data when it must be shared for testing/debugging purposes
-
 # Scrambling data has limitations when bugs are related to a specific string or character, we try to keep a minimal of alphabetic ordering, numbers are not touched
-
 # Also identificators(object names) are scrambled
-
 
 import fileinput
 import re
@@ -14,6 +10,10 @@ import hashlib
 import random
 
 for line in fileinput.input():
+
+    # Remove Host and Database
+    line = re.sub(r'^-- Host. \d+.\d+.\d+.\d+ +Database: .*','-- Host: xxx.xxx.xxx.xxx     Database: XXXXXXXX',line.rstrip())
+
     # Replace Names, I keep the first two characters of the identificators for easier reference to original ones
     line = re.sub(r'`(.((?!`).)*)`', lambda x: ''.join(['`',x.group(1)[0:2],hashlib.md5(x.group(1).encode('utf8')).hexdigest()[0:20],'`']),line.rstrip())
    
