@@ -1,3 +1,5 @@
+### MASTER
+
 # Copperfield v.0.1 - MySQL/MariaDB data scrambler                      (c)2017 Claudio Nanni
 
 # It scrambles data in a mysqldump output so that data is not recognizable, useful to protect sensitive data when it must be shared for testing/debugging purposes
